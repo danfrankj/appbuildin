@@ -1,4 +1,4 @@
-function [period, phaze] = extract_beat2(clip, PLOT_FLAG)
+function [period, phaze] = extract_beat(clip, PLOT_FLAG)
 % function [period, phase] = extract_beat2(song, PLOT_FLAG)
 
 if nargin<2
@@ -11,7 +11,7 @@ dT = T(2)-T(1);
 deriv = get_deriv(hfc, 4);
 env = get_rms(deriv, round(0.05/dT));
 
-DET_FUN = hfc;
+DET_FUN = env;
 
 [period, phaze] = findBeatsFast(DET_FUN, dT);
 

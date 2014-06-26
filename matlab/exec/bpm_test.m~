@@ -1,5 +1,9 @@
 audioFile = 'darkHorse.mp3';
 
+% time region to examine
+T_START = -inf; 
+T_END = inf;
+
 %% load libs
 
 execDir = pwd;
@@ -12,8 +16,9 @@ mediaPath = fullfile(projectPath,'media');
 
 %%
 
-
-
-
-
+song = load_audio(fullfile(mediaPath,audioFile));
+clip = truncate_audio(song, T_START, T_END);
+[period, phaze] = extract_beat(clip);
+BPM = 2*60/period;
+sprintf('%s moves at %3.1d beats per minute', audioFile, BPM)
 %%
