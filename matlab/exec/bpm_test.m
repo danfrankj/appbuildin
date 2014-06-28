@@ -20,7 +20,7 @@ song = load_audio(fullfile(mediaPath,audioFile));
 clip = truncate_audio(song, T_START, T_END);
 
 [period, phaze] = extract_beat(clip);
-BPM = 2*60/period;
+BPM = 60/period;
 
 fprintf('%s moves at %3.2f beats per minute \n', audioFile, BPM)
 

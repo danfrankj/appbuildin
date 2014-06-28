@@ -18,10 +18,10 @@ DET_FUN = env;
 FACTOR = 1;
 if PLOT_FLAG
     figure;
-    tempo = cos(2*pi*((1:length(DET_FUN)) - phaze/FACTOR)/(period/FACTOR));
+    tempo = cos(2*pi*(T - phaze/FACTOR)/(period/FACTOR));
     plot(T,0.5*tempo,T,DET_FUN/max(DET_FUN))
 end
 
-period = period*dT;
-phaze = phaze*dT;
+% period = period*dT;
+% phaze = phaze*dT;
 
