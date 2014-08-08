@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.util.FloatMath;
 
 /**
  * Created by dfrank on 7/1/14.
@@ -38,8 +39,10 @@ public class SensorActivity extends Activity implements SensorEventListener {
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
+        float mag = FloatMath.sqrt(FloatMath.pow(x, 2f) + FloatMath.pow(y, 2f) + FloatMath.pow(z, 2f));
         String toDisplay = String.valueOf(x) + "," + String.valueOf(y) + "," + String.valueOf(z);
         // Do something with this sensor value.
+        toDisplay = toDisplay + "\n" + String.valueOf(mag);
         TextView myTextView = (TextView) findViewById(R.id.sensorTextView);
         myTextView.setText(String.valueOf(toDisplay));
     }
