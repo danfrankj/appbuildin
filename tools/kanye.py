@@ -1,6 +1,8 @@
 import mechanize
 from retrying import retry
 from BeautifulSoup import BeautifulSoup
+from pandas import DataFrame
+import numpy as np
 
 
 # TODO add retry logic and error handling
@@ -53,9 +55,14 @@ def extract_lyrics(song_url):
 
 
 def get_all_artist_lyrics(artist_url):
-    lyrics_list = []
+    df = DataFrame(np.empty(0, dtype=[('artist_url', object),
+                                      ('album_url', object),
+                                      ('song_url', object),
+                                      ('lyrics', object)]))
     album_urls = get_album_urls(artist_url)
+
     print "found album urls " + ", ".join(album_urls)
+    row_num = 0
     for album_url in album_urls:
         try:
             song_urls = get_song_urls(album_url)
@@ -66,9 +73,14 @@ def get_all_artist_lyrics(artist_url):
             print "got songs for " + album_url
         for song_url in song_urls:
             try:
-                lyrics_list.append(extract_lyrics(song_url))
+                lyrics = extract_lyrics(song_url)
             except:
                 print "failed to get lyrics for " + song_url
             finally:
                 print "got lyrics for " + song_url
-    return lyrics_list
+                df.loc[row_num] = [artist_url, album_url, song_url, lyrics]
+                row_num += 1
+
+    # todo save line by line
+    df.to_pickle(artist_url.split("/")[-1] + '.pkl')
+    return df
